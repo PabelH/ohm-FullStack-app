@@ -1,0 +1,12 @@
+# Ignore system-generated temporary files
+.DS_Store
+Thumbs.db
+
+# Ignore log files
+*.log
+
+# Ignore local configuration files
+.env
+
+# Ignore dependency folders (e.g., for Node.js projects)
+node_modules/
