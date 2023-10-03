@@ -1,5 +1,6 @@
 // Calculator.js
 import React, { useState, useEffect } from 'react';
+import './Calculator.css';
 
 function Calculator() {
   const [multiplierOptions, setMultiplierOptions] = useState([]);
