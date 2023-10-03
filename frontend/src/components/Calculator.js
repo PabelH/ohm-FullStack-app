@@ -1,4 +1,3 @@
-// Calculator.js
 import React, { useState, useEffect } from 'react';
 import './Calculator.css';
 
@@ -13,13 +12,13 @@ function Calculator() {
 
   useEffect(() => {
     // Obtener las opciones de multiplicador desde el backend
-    fetch('/api/multiplier-options') // Reemplaza con la URL correcta de tu servidor
+    fetch('/api/multiplier-options')
       .then((response) => response.json())
       .then((data) => setMultiplierOptions(data))
       .catch((error) => console.error('Error al obtener opciones de multiplicador:', error));
 
     // Obtener las opciones de tolerancia desde el backend
-    fetch('/api/tolerance-options') // Reemplaza con la URL correcta de tu servidor
+    fetch('/api/tolerance-options') 
       .then((response) => response.json())
       .then((data) => setToleranceOptions(data))
       .catch((error) => console.error('Error al obtener opciones de tolerancia:', error));
@@ -88,11 +87,18 @@ function Calculator() {
     }
   };
 
+  // Define una función para aplicar el estilo de fondo según el color seleccionado
+  const getBandStyle = (color) => {
+    return { backgroundColor: color, borderColor: color };
+  };
+
   return (
     <div>
-      <h1>Calculadora de Resistencias</h1>
+      
+      <div className="form-container">
       <form onSubmit={handleCalculate}>
-        <div>
+        <div className="resistor">
+          <div className="resistor-band" style={getBandStyle(bandAColor)}></div>
           <label htmlFor="bandAColor">Banda A de Color:</label>
           <select id="bandAColor" name="bandAColor" onChange={handleBandAColorChange} value={bandAColor}>
             <option value="">Selecciona...</option>
@@ -103,7 +109,8 @@ function Calculator() {
             ))}
           </select>
         </div>
-        <div>
+        <div className="resistor">
+          <div className="resistor-band" style={getBandStyle(bandBColor)}></div>
           <label htmlFor="bandBColor">Banda B de Color:</label>
           <select id="bandBColor" name="bandBColor" onChange={handleBandBColorChange} value={bandBColor}>
             <option value="">Selecciona...</option>
@@ -114,7 +121,8 @@ function Calculator() {
             ))}
           </select>
         </div>
-        <div>
+        <div className="resistor">
+          <div className="multiplier-band" style={getBandStyle(selectedMultiplier)}></div>
           <label htmlFor="multiplier">Selecciona el Multiplicador:</label>
           <select id="multiplier" name="multiplier" onChange={handleMultiplierChange} value={selectedMultiplier}>
             <option value="">Selecciona...</option>
@@ -125,7 +133,8 @@ function Calculator() {
             ))}
           </select>
         </div>
-        <div>
+        <div className="resistor">
+          <div className="tolerance-band" style={getBandStyle(selectedTolerance)}></div>
           <label htmlFor="tolerance">Selecciona la Tolerancia:</label>
           <select id="tolerance" name="tolerance" onChange={handleToleranceChange} value={selectedTolerance}>
             <option value="">Selecciona...</option>
@@ -138,8 +147,10 @@ function Calculator() {
         </div>
         <button type="submit">Calcular</button>
       </form>
+      </div>
       {resistanceValue !== null && (
         <div>
+          
           <p>El valor de la resistencia calculada es: {resistanceValue} Ohms</p>
         </div>
       )}

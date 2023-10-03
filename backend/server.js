@@ -12,7 +12,7 @@ app.use(cors());
 app.use(json());
 
 // Conectar a la base de datos MongoDB Atlas
-const MONGODB_URI = process.env.MONGODB_URI; // Reemplaza con tu URL de conexión
+const MONGODB_URI = process.env.MONGODB_URI; 
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('Conexión a MongoDB Atlas establecida'))
   .catch(err => console.error(err));

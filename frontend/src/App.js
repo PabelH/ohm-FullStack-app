@@ -1,16 +1,14 @@
-import logo from './logo.svg';
 import './App.css';
-import Calculator from './components/Calculator'; // Importa el componente Calculator
-
+import Calculator from './components/Calculator'; 
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h1>Mi Aplicación de Calculadora de Resistencia</h1>
+        <h1>Calculadora de Resistencias</h1>
       </header>
       <main>
-        <Calculator /> {/* Renderiza el componente Calculator aquí */}
+        <Calculator /> 
       </main>
     </div>
   );

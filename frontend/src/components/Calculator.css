@@ -1,4 +1,37 @@
-body{
-  background-color: black;
-  color: white;
+.resistor {
+  display: flex;
+  align-items: center;
+  margin: auto;
+}
+
+.resistor-band,
+.multiplier-band,
+.tolerance-band {
+  width: 20px;
+  height: 60px;
+  border: 1px solid #000;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  align-items: center;
+  border-radius: 10%;
+}
+
+.form-container {
+  display: flex;
+  justify-content: center; /* Centra horizontalmente el contenido */
+  align-items: center; /* Centra verticalmente el contenido */
+  
+}
+
+button{
+  margin: 30px;
+  font-family: 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  font-size: 50px;
+  border-radius: 10px;
+  color: aliceblue;
+  background-color: rgb(85, 85, 241);
+  border: none;
+  padding: 10px;
 }
