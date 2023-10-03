@@ -1,8 +1,7 @@
-import dotenv from 'dotenv'; 
+import dotenv from 'dotenv';
 import express, { json } from 'express';
-import { mongoose, Schema, model } from 'mongoose';
+import mongoose from 'mongoose';
 import cors from 'cors';
-
 
 dotenv.config();
 
@@ -18,34 +17,64 @@ mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true 
   .then(() => console.log('Conexión a MongoDB Atlas establecida'))
   .catch(err => console.error(err));
 
-// Definir modelo de datos para el Multiplicador y Tolerancia
-
-const resistorSchema = new Schema({
+// Definir modelo de datos para el Multiplicador
+const multiplierSchema = new mongoose.Schema({
   color: String,
   value: Number,
-  multiplier: Number,
-  tolerance: Number,
 });
 
-const Resistor = model('Resistor', resistorSchema);
+const Multiplier = mongoose.model('Multiplier', multiplierSchema);
 
-// Definir la ruta para calcular el valor de la resistencia
-app.post('/api/calculate', async (req, res) => {
+// Definir modelo de datos para la Tolerancia
+const toleranceSchema = new mongoose.Schema({
+  color: String,
+  value: Number,
+});
+
+const Tolerance = mongoose.model('Tolerance', toleranceSchema);
+
+// Ruta para cargar las opciones de multiplicador en la base de datos
+app.post('/api/upload-multiplier-options', async (req, res) => {
   try {
-    const { bandAColor, bandBColor, bandCColor, bandDColor } = req.body;
-    const bandA = await Resistor.findOne({ color: bandAColor });
-    const bandB = await Resistor.findOne({ color: bandBColor });
-    const bandC = await Resistor.findOne({ color: bandCColor });
-    const bandD = await Resistor.findOne({ color: bandDColor });
-
-    if (bandA && bandB && bandC && bandD) {
-      const resistance = Number(`${bandA.value}${bandB.value}`) * bandC.multiplier;
-      res.json({ resistance, tolerance: bandD.tolerance });
-    } else {
-      res.status(400).json({ message: 'Colores de banda no válidos' });
-    }
+    const { multiplierOptions } = req.body;
+    const result = await Multiplier.create(multiplierOptions);
+    res.json({ message: 'Opciones de multiplicador cargadas exitosamente', result });
   } catch (error) {
-    console.error(error);
+    console.error('Error al cargar las opciones de multiplicador:', error);
+    res.status(500).json({ message: 'Error del servidor' });
+  }
+});
+
+// Ruta para cargar las opciones de tolerancia en la base de datos
+app.post('/api/upload-tolerance-options', async (req, res) => {
+  try {
+    const { toleranceOptions } = req.body;
+    const result = await Tolerance.create(toleranceOptions);
+    res.json({ message: 'Opciones de tolerancia cargadas exitosamente', result });
+  } catch (error) {
+    console.error('Error al cargar las opciones de tolerancia:', error);
+    res.status(500).json({ message: 'Error del servidor' });
+  }
+});
+
+// Ruta para obtener las opciones de multiplicador desde la base de datos
+app.get('/api/multiplier-options', async (req, res) => {
+  try {
+    const multiplierOptions = await Multiplier.find({});
+    res.json(multiplierOptions);
+  } catch (error) {
+    console.error('Error al obtener las opciones de multiplicador:', error);
+    res.status(500).json({ message: 'Error del servidor' });
+  }
+});
+
+// Ruta para obtener las opciones de tolerancia desde la base de datos
+app.get('/api/tolerance-options', async (req, res) => {
+  try {
+    const toleranceOptions = await Tolerance.find({});
+    res.json(toleranceOptions);
+  } catch (error) {
+    console.error('Error al obtener las opciones de tolerancia:', error);
     res.status(500).json({ message: 'Error del servidor' });
   }
 });
